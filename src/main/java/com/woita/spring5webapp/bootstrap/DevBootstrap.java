@@ -2,8 +2,10 @@ package com.woita.spring5webapp.bootstrap;
 
 import com.woita.spring5webapp.model.Author;
 import com.woita.spring5webapp.model.Book;
+import com.woita.spring5webapp.model.Publisher;
 import com.woita.spring5webapp.repositories.AuthorRepository;
 import com.woita.spring5webapp.repositories.BookRepository;
+import com.woita.spring5webapp.repositories.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -20,6 +22,9 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
     private AuthorRepository authorRepository;
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private PublisherRepository publisherRepository;
+
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -30,20 +35,23 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
         // Eric
         Author eric = new Author("Eric", "Evans");
-        Book ddd = new Book("Domain Driven Design", "1234", "Harper Collins");
+        Publisher harperCollins = new Publisher("Harper Collins", "123 London Road, London");
+        Book ddd = new Book("Domain Driven Design", "1234", harperCollins);
         eric.getBooks().add(ddd);
         ddd.getAuthors().add(eric);
 
         authorRepository.save(eric);
+        publisherRepository.save(harperCollins);
         bookRepository.save(ddd);
 
         // Rod
         Author rod = new Author("Rod", "Johnson");
-        Book noEJB = new Book("J2EE Development without EJB", "23444", "Worx");
+        Publisher worx = new Publisher("Worx", "99 Coast Avenue, Cornwall");
+        Book noEJB = new Book("J2EE Development without EJB", "23444", worx);
         rod.getBooks().add(noEJB);
-       // noEJB.getAuthors().add(rod);
 
         authorRepository.save(rod);
+        publisherRepository.save(worx);
         bookRepository.save(noEJB);
     }
 }
